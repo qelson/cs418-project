@@ -22,26 +22,28 @@ export default function ResetPassword() {
     }
   };
 
-  if (!token) return <p style={{ textAlign: 'center' }}>Invalid reset link. <a href="/forgot-password">Request a new one.</a></p>;
+  if (!token) return (
+    <div className="panel">
+      <p className="msg-error">Invalid reset link. <a href="/forgot-password">Request a new one.</a></p>
+    </div>
+  );
 
   return (
-    <div style={styles.container}>
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} required style={styles.input} />
-        <button type="submit" style={styles.button}>Reset Password</button>
+    <div className="panel">
+      <div className="xp-titlebar">
+        <span>Reset Password — Account Security</span>
+        <div className="xp-sysbtns">
+          <span>─</span><span>□</span><span className="xp-close">✕</span>
+        </div>
+      </div>
+      <h2 className="glitch-title">Reset Pass</h2>
+      <div className="status-strip status-warn">! ENTER YOUR NEW PASSWORD TO RESTORE ACCESS</div>
+      <form onSubmit={handleSubmit} className="form-glitch">
+        <input className="input-glitch" type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <button type="submit" className="btn-glitch">Reset Password</button>
       </form>
-      {message && <p style={styles.success}>{message}</p>}
-      {error   && <p style={styles.error}>{error}</p>}
+      {message && <p className="msg-success" style={{ marginTop: 14 }}>{message}</p>}
+      {error   && <p className="msg-error"   style={{ marginTop: 14 }}>{error}</p>}
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  form:      { display: 'flex', flexDirection: 'column', gap: 10 },
-  input:     { padding: 8, fontSize: 14 },
-  button:    { padding: 10, cursor: 'pointer' },
-  success:   { color: 'green' },
-  error:     { color: 'red' },
-};

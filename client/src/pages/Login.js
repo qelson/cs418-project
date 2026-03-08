@@ -22,24 +22,26 @@ export default function Login() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input name="email"    placeholder="Email"    value={form.email}    onChange={handleChange} required type="email"    style={styles.input} />
-        <input name="password" placeholder="Password" value={form.password} onChange={handleChange} required type="password" style={styles.input} />
-        <button type="submit" style={styles.button}>Login</button>
-      </form>
-      {error && <p style={styles.error}>{error}</p>}
-      <p><Link to="/forgot-password">Forgot password?</Link></p>
-      <p>No account? <Link to="/register">Register</Link></p>
+    <div className="login-screen">
+      <div className="panel">
+        <div className="xp-titlebar">
+          <span>Secure Login — Access Portal</span>
+          <div className="xp-sysbtns">
+            <span>─</span><span>□</span><span className="xp-close">✕</span>
+          </div>
+        </div>
+        <h2 className="glitch-title">Login</h2>
+        <div className="status-strip status-warn">NOTICE: Authorized users only. All access is logged and monitored.</div>
+        <form onSubmit={handleSubmit} className="form-glitch">
+          <input className="input-glitch" name="email"    placeholder="Email"    value={form.email}    onChange={handleChange} required type="email" />
+          <input className="input-glitch" name="password" placeholder="Password" value={form.password} onChange={handleChange} required type="password" />
+          <button type="submit" className="btn-glitch">Login</button>
+        </form>
+        {error && <p className="msg-error" style={{ marginTop: 14 }}>{error}</p>}
+        <div className="spacer" />
+        <p><Link to="/forgot-password">Forgot password?</Link></p>
+        <p>No account? <Link to="/register">Register</Link></p>
+      </div>
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  form:      { display: 'flex', flexDirection: 'column', gap: 10 },
-  input:     { padding: 8, fontSize: 14 },
-  button:    { padding: 10, cursor: 'pointer' },
-  error:     { color: 'red' },
-};

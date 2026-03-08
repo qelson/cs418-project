@@ -17,17 +17,18 @@ export default function VerifyEmail() {
   }, [token]);
 
   return (
-    <div style={styles.container}>
-      <h2>Email Verification</h2>
-      {!error && <p style={styles.success}>{message}</p>}
-      {error  && <p style={styles.error}>{error}</p>}
+    <div className="panel">
+      <div className="xp-titlebar">
+        <span>Email Verification — Account Activation</span>
+        <div className="xp-sysbtns">
+          <span>─</span><span>□</span><span className="xp-close">✕</span>
+        </div>
+      </div>
+      <h2 className="glitch-title">Email Verify</h2>
+      {!error && <p className="msg-success">{message}</p>}
+      {error  && <p className="msg-error">{error}</p>}
+      <div className="spacer" />
       <Link to="/login">Go to Login</Link>
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  success:   { color: 'green' },
-  error:     { color: 'red' },
-};

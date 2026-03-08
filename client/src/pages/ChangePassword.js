@@ -23,24 +23,22 @@ export default function ChangePassword() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Change Password</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input name="currentPassword" placeholder="Current Password" type="password" value={form.currentPassword} onChange={handleChange} required style={styles.input} />
-        <input name="newPassword"     placeholder="New Password"     type="password" value={form.newPassword}     onChange={handleChange} required style={styles.input} />
-        <button type="submit" style={styles.button}>Update Password</button>
+    <div className="panel">
+      <div className="xp-titlebar">
+        <span>Change Password — Account Settings</span>
+        <div className="xp-sysbtns">
+          <span>─</span><span>□</span><span className="xp-close">✕</span>
+        </div>
+      </div>
+      <h2 className="glitch-title">Change Pass</h2>
+      <div className="status-strip status-warn">! UPDATE YOUR PASSWORD TO MAINTAIN ACCOUNT SECURITY</div>
+      <form onSubmit={handleSubmit} className="form-glitch">
+        <input className="input-glitch" name="currentPassword" placeholder="Current Password" type="password" value={form.currentPassword} onChange={handleChange} required />
+        <input className="input-glitch" name="newPassword"     placeholder="New Password"     type="password" value={form.newPassword}     onChange={handleChange} required />
+        <button type="submit" className="btn-glitch">Update Password</button>
       </form>
-      {message && <p style={styles.success}>{message}</p>}
-      {error   && <p style={styles.error}>{error}</p>}
+      {message && <p className="msg-success" style={{ marginTop: 14 }}>{message}</p>}
+      {error   && <p className="msg-error"   style={{ marginTop: 14 }}>{error}</p>}
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  form:      { display: 'flex', flexDirection: 'column', gap: 10 },
-  input:     { padding: 8, fontSize: 14 },
-  button:    { padding: 10, cursor: 'pointer' },
-  success:   { color: 'green' },
-  error:     { color: 'red' },
-};

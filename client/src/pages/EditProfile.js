@@ -29,40 +29,22 @@ export default function EditProfile() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Edit Profile</h2>
-      <p style={styles.note}>Email cannot be changed: <strong>{user?.email}</strong></p>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input
-          name="firstName"
-          placeholder="First Name"
-          value={form.firstName}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          name="lastName"
-          placeholder="Last Name"
-          value={form.lastName}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>Save Changes</button>
+    <div className="panel">
+      <div className="xp-titlebar">
+        <span>Edit Profile — User Settings</span>
+        <div className="xp-sysbtns">
+          <span>─</span><span>□</span><span className="xp-close">✕</span>
+        </div>
+      </div>
+      <h2 className="glitch-title">Edit Profile</h2>
+      <p className="note-text">Email cannot be changed: <strong style={{ color: 'var(--lime)' }}>{user?.email}</strong></p>
+      <form onSubmit={handleSubmit} className="form-glitch">
+        <input className="input-glitch" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required />
+        <input className="input-glitch" name="lastName"  placeholder="Last Name"  value={form.lastName}  onChange={handleChange} required />
+        <button type="submit" className="btn-glitch">Save Changes</button>
       </form>
-      {message && <p style={styles.success}>{message}</p>}
-      {error   && <p style={styles.error}>{error}</p>}
+      {message && <p className="msg-success" style={{ marginTop: 14 }}>{message}</p>}
+      {error   && <p className="msg-error"   style={{ marginTop: 14 }}>{error}</p>}
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  note:      { color: '#555', fontSize: 14 },
-  form:      { display: 'flex', flexDirection: 'column', gap: 10 },
-  input:     { padding: 8, fontSize: 14 },
-  button:    { padding: 10, cursor: 'pointer' },
-  success:   { color: 'green' },
-  error:     { color: 'red' },
-};

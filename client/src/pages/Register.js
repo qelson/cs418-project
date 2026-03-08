@@ -21,27 +21,25 @@ export default function Register() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required style={styles.input} />
-        <input name="lastName"  placeholder="Last Name"  value={form.lastName}  onChange={handleChange} required style={styles.input} />
-        <input name="email"     placeholder="Email"      value={form.email}     onChange={handleChange} required type="email" style={styles.input} />
-        <input name="password"  placeholder="Password"   value={form.password}  onChange={handleChange} required type="password" style={styles.input} />
-        <button type="submit" style={styles.button}>Register</button>
+    <div className="panel">
+      <div className="xp-titlebar">
+        <span>New User Registration — Account Setup</span>
+        <div className="xp-sysbtns">
+          <span>─</span><span>□</span><span className="xp-close">✕</span>
+        </div>
+      </div>
+      <h2 className="glitch-title">Register</h2>
+      <form onSubmit={handleSubmit} className="form-glitch">
+        <input className="input-glitch" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required />
+        <input className="input-glitch" name="lastName"  placeholder="Last Name"  value={form.lastName}  onChange={handleChange} required />
+        <input className="input-glitch" name="email"     placeholder="Email"      value={form.email}     onChange={handleChange} required type="email" />
+        <input className="input-glitch" name="password"  placeholder="Password"   value={form.password}  onChange={handleChange} required type="password" />
+        <button type="submit" className="btn-glitch">Register</button>
       </form>
-      {message && <p style={styles.success}>{message}</p>}
-      {error   && <p style={styles.error}>{error}</p>}
+      {message && <p className="msg-success" style={{ marginTop: 14 }}>{message}</p>}
+      {error   && <p className="msg-error"   style={{ marginTop: 14 }}>{error}</p>}
+      <div className="spacer" />
       <p>Already have an account? <Link to="/login">Login</Link></p>
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 400, margin: '60px auto', fontFamily: 'sans-serif' },
-  form:      { display: 'flex', flexDirection: 'column', gap: 10 },
-  input:     { padding: 8, fontSize: 14 },
-  button:    { padding: 10, cursor: 'pointer' },
-  success:   { color: 'green' },
-  error:     { color: 'red' },
-};

@@ -16,33 +16,39 @@ export default function AdminDashboard() {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.banner}>Admin Dashboard</div>
-      <h2>Welcome, {user?.firstName} {user?.lastName}</h2>
-      <div style={styles.badge}>ADMIN</div>
-      <table style={styles.table}>
+    <div className="panel">
+      <div className="banner-admin">▲ Admin Control Panel ▲</div>
+      <h2 className="glitch-title">Admin View</h2>
+      <div className="status-widget">
+        <div className="sw-label">System Control Panel</div>
+        <div className="meter-wrap"><div className="meter-fill fill-warn"></div></div>
+        <div className="sw-row">
+          <span>Admin Privileges</span>
+          <span className="badge-crit">ELEVATED</span>
+        </div>
+        <div className="sw-row">
+          <span>System Status</span>
+          <span className="badge-ok">NOMINAL</span>
+        </div>
+        <div className="sw-row">
+          <span>Access Level</span>
+          <span className="badge-warn">RESTRICTED</span>
+        </div>
+      </div>
+      <div className="badge-admin">ADMIN ACCESS</div>
+      <table className="profile-table">
         <tbody>
-          <tr><td style={styles.label}>Email</td><td>{user?.email}</td></tr>
-          <tr><td style={styles.label}>Name</td><td>{user?.firstName} {user?.lastName}</td></tr>
-          <tr><td style={styles.label}>Verified</td><td>{user?.verified ? 'Yes' : 'No'}</td></tr>
-          <tr><td style={styles.label}>Role</td><td><strong>Administrator</strong></td></tr>
+          <tr><td>Name</td><td>{user?.firstName} {user?.lastName}</td></tr>
+          <tr><td>Email</td><td>{user?.email}</td></tr>
+          <tr><td>Verified</td><td>{user?.verified ? 'Yes' : 'No'}</td></tr>
+          <tr><td>Role</td><td><strong style={{ color: 'var(--pink)' }}>Administrator</strong></td></tr>
         </tbody>
       </table>
-      <div style={styles.links}>
-        <Link to="/edit-profile">Edit Profile</Link>
-        <Link to="/change-password">Change Password</Link>
+      <div className="nav-links">
+        <Link to="/edit-profile">▶ Edit Profile</Link>
+        <Link to="/change-password">▶ Change Password</Link>
       </div>
-      <button onClick={handleLogout} style={styles.button}>Logout</button>
+      <button onClick={handleLogout} className="btn-glitch">Logout</button>
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: 480, margin: '60px auto', fontFamily: 'sans-serif' },
-  banner:    { background: '#c0392b', color: '#fff', padding: '12px 16px', fontWeight: 'bold', fontSize: 16, marginBottom: 16 },
-  badge:     { display: 'inline-block', background: '#c0392b', color: '#fff', padding: '2px 10px', borderRadius: 4, fontSize: 12, fontWeight: 'bold', marginBottom: 16 },
-  table:     { width: '100%', borderCollapse: 'collapse', marginBottom: 20 },
-  label:     { fontWeight: 'bold', padding: '6px 12px 6px 0', width: 100 },
-  links:     { display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 },
-  button:    { padding: '8px 16px', cursor: 'pointer' },
-};
