@@ -37,12 +37,18 @@ const sendEmail = async (to, subject, text, html) => {
     console.log(`[DEV] Email to ${to} | ${subject} | ${text}`);
     return;
   }
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('sendMail timed out after 5s')), 5000)
+  );
   try {
-    const info = await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject, text, html });
+    const info = await Promise.race([
+      transporter.sendMail({ from: process.env.EMAIL_USER, to, subject, text, html }),
+      timeout,
+    ]);
     console.log('[Email] SENT to', to, '| messageId:', info.messageId);
   } catch (err) {
     console.error('[Email] SEND FAILED:', err.message);
-    
+    console.log(`[DEV FALLBACK] Email to ${to} | ${subject} | ${text}`);
   }
 };
  
