@@ -23,6 +23,15 @@ app.use('/api/user', userRoutes);
 app.use('/api/advising', advisingRoutes);
 app.get('/api/courses', (req, res) => res.json(courses));
 
+// ── Serve React build in production ──────────────────────────────────────────
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+}
+
 // ── Admin seed ────────────────────────────────────────────────────────────────
 // Creates a verified admin account on first boot if it doesn't exist yet.
 const seedAdmin = async () => {
