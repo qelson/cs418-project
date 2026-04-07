@@ -12,6 +12,8 @@ import EditProfile     from './pages/EditProfile';
 import ChangePassword  from './pages/ChangePassword';
 import ForgotPassword  from './pages/ForgotPassword';
 import ResetPassword   from './pages/ResetPassword';
+import AdvisingHistory from './pages/AdvisingHistory';
+import AdvisingForm    from './pages/AdvisingForm';
 
 export default function App() {
   return (
@@ -37,6 +39,15 @@ export default function App() {
           } />
           <Route path="/change-password" element={
             <PrivateRoute><ChangePassword /></PrivateRoute>
+          } />
+          <Route path="/advising" element={
+            <PrivateRoute><AdvisingHistory /></PrivateRoute>
+          } />
+          <Route path="/advising/new" element={
+            <PrivateRoute><AdvisingForm /></PrivateRoute>
+          } />
+          <Route path="/advising/:id" element={
+            <PrivateRoute><AdvisingForm /></PrivateRoute>
           } />
         </Routes>
       </BrowserRouter>

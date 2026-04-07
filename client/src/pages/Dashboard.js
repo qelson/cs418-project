@@ -30,6 +30,7 @@ export default function Dashboard() {
       <div className="nav-links">
         <Link to="/edit-profile">▶ Edit Profile</Link>
         <Link to="/change-password">▶ Change Password</Link>
+        <Link to="/advising">▶ Course Advising</Link>
       </div>
       <button onClick={handleLogout} className="btn-glitch">Logout</button>
     </div>

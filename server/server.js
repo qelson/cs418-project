@@ -4,9 +4,11 @@ const cors     = require('cors');
 const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt');
 
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const User       = require('./models/User');
+const authRoutes     = require('./routes/auth');
+const userRoutes     = require('./routes/user');
+const advisingRoutes = require('./routes/advising');
+const courses        = require('./data/courses');
+const User           = require('./models/User');
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +20,8 @@ app.use(express.json());
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/advising', advisingRoutes);
+app.get('/api/courses', (req, res) => res.json(courses));
 
 // ── Admin seed ────────────────────────────────────────────────────────────────
 // Creates a verified admin account on first boot if it doesn't exist yet.
