@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import { validatePassword } from '../utils/passwordValidation';
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage]   = useState('');
+  const [error, setError]       = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(''); setMessage('');
+
+    const pwError = validatePassword(password);
+    if (pwError) { setError(pwError); return; }
+
     try {
       const { data } = await api.post('/auth/reset-password', { token, password });
       setMessage(data.message);
@@ -40,6 +45,9 @@ export default function ResetPassword() {
       <div className="status-strip status-warn">! ENTER YOUR NEW PASSWORD TO RESTORE ACCESS</div>
       <form onSubmit={handleSubmit} className="form-glitch">
         <input className="input-glitch" type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <div style={{ fontSize: 11, color: '#666', marginTop: -6, marginBottom: 4, lineHeight: 1.5 }}>
+          Must be 8+ chars with uppercase, lowercase, number, and special character.
+        </div>
         <button type="submit" className="btn-glitch">Reset Password</button>
       </form>
       {message && <p className="msg-success" style={{ marginTop: 14 }}>{message}</p>}

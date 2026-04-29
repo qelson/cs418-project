@@ -2,18 +2,20 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 
-import Register        from './pages/Register';
-import Login           from './pages/Login';
-import OtpVerify       from './pages/OtpVerify';
-import VerifyEmail     from './pages/VerifyEmail';
-import Dashboard       from './pages/Dashboard';
-import AdminDashboard  from './pages/AdminDashboard';
-import EditProfile     from './pages/EditProfile';
-import ChangePassword  from './pages/ChangePassword';
-import ForgotPassword  from './pages/ForgotPassword';
-import ResetPassword   from './pages/ResetPassword';
-import AdvisingHistory from './pages/AdvisingHistory';
-import AdvisingForm    from './pages/AdvisingForm';
+import Register              from './pages/Register';
+import Login                 from './pages/Login';
+import OtpVerify             from './pages/OtpVerify';
+import VerifyEmail           from './pages/VerifyEmail';
+import Dashboard             from './pages/Dashboard';
+import AdminDashboard        from './pages/AdminDashboard';
+import EditProfile           from './pages/EditProfile';
+import ChangePassword        from './pages/ChangePassword';
+import ForgotPassword        from './pages/ForgotPassword';
+import ResetPassword         from './pages/ResetPassword';
+import AdvisingHistory       from './pages/AdvisingHistory';
+import AdvisingForm          from './pages/AdvisingForm';
+import AdminAdvising         from './pages/AdminAdvising';
+import AdminReviewAdvising   from './pages/AdminReviewAdvising';
 
 export default function App() {
   return (
@@ -33,6 +35,12 @@ export default function App() {
           } />
           <Route path="/admin" element={
             <PrivateRoute adminOnly={true}><AdminDashboard /></PrivateRoute>
+          } />
+          <Route path="/admin/advising" element={
+            <PrivateRoute adminOnly={true}><AdminAdvising /></PrivateRoute>
+          } />
+          <Route path="/admin/advising/:id" element={
+            <PrivateRoute adminOnly={true}><AdminReviewAdvising /></PrivateRoute>
           } />
           <Route path="/edit-profile" element={
             <PrivateRoute><EditProfile /></PrivateRoute>

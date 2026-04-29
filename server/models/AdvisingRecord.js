@@ -12,8 +12,9 @@ const advisingRecordSchema = new mongoose.Schema({
   lastTerm:    { type: String },
   lastGPA:     { type: Number },
   currentTerm: { type: String },
-  status:      { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
-  courses:     [courseSchema],
+  status:       { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
+  adminMessage: { type: String, default: '' },
+  courses:      [courseSchema],
 }, { timestamps: true });
 
 module.exports = mongoose.model('AdvisingRecord', advisingRecordSchema);

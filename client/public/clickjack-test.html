@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clickjacking Prevention Demo</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #c0c0c0;
+      padding: 24px;
+      color: #000;
+    }
+    h1 { font-size: 18px; margin-bottom: 8px; }
+    h2 { font-size: 14px; margin: 16px 0 8px; }
+    .notice {
+      background: #fffbe6;
+      border: 2px solid #cc9900;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .notice strong { font-size: 14px; }
+    .blocked-msg {
+      color: #cc0000;
+      font-weight: bold;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+    .success-msg {
+      color: #006600;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    iframe {
+      width: 800px;
+      height: 420px;
+      border: 3px solid #333;
+      background: #eee;
+      display: block;
+      margin-bottom: 10px;
+    }
+    ul { font-size: 13px; line-height: 1.8; }
+    code {
+      background: #ddd;
+      padding: 2px 5px;
+      font-size: 12px;
+    }
+    hr { margin: 20px 0; border-color: #999; }
+  </style>
+</head>
+<body>
+  <h1>Clickjacking Prevention Demonstration</h1>
+
+  <div class="notice">
+    <strong>This page demonstrates clickjacking prevention.</strong>
+    <p>
+      The iframe below attempts to embed the CS418 application login page.
+      Because the server sends <code>X-Frame-Options: DENY</code> and
+      <code>Content-Security-Policy: frame-ancestors 'none'</code>, the browser
+      refuses to render the page inside the frame.
+    </p>
+    <p>
+      <em>Note: In production, the app is served by Express which sets these headers.
+      In local development (React dev server on port 3000), headers are set by
+      Express on port 5000 when serving the built app.</em>
+    </p>
+  </div>
+
+  <h2>Attempted iframe embed (blocked by browser security headers):</h2>
+  <iframe
+    src="http://localhost:5000"
+    title="Attempted embed — should be blocked"
+    sandbox="allow-same-origin allow-scripts"
+  >
+    <p>Your browser does not support iframes.</p>
+  </iframe>
+
+  <p class="blocked-msg">
+    ✓ If the iframe is blank or shows a browser error, clickjacking protection is working.
+  </p>
+  <p class="success-msg">
+    ✓ The application cannot be embedded in foreign frames.
+  </p>
+
+  <hr />
+
+  <h2>How clickjacking prevention works:</h2>
+  <ul>
+    <li>
+      <strong>X-Frame-Options: DENY</strong> — Legacy header that instructs browsers
+      to never display this page inside any <code>&lt;frame&gt;</code>,
+      <code>&lt;iframe&gt;</code>, <code>&lt;embed&gt;</code>, or
+      <code>&lt;object&gt;</code> element.
+    </li>
+    <li>
+      <strong>Content-Security-Policy: frame-ancestors 'none'</strong> — Modern CSP
+      directive that supersedes X-Frame-Options. Prevents any origin (including
+      same-origin) from embedding this page in a frame.
+    </li>
+  </ul>
+
+  <h2>Without these headers, an attacker could:</h2>
+  <ul>
+    <li>Embed the login page invisibly over a malicious site</li>
+    <li>Trick users into clicking buttons they cannot see (UI redressing)</li>
+    <li>Steal credentials or perform unintended actions on behalf of users</li>
+  </ul>
+</body>
+</html>

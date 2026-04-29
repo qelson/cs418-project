@@ -13,6 +13,13 @@ const User           = require('./models/User');
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
+// ── Security headers ──────────────────────────────────────────────────────────
+app.use((req, res, next) => {
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Content-Security-Policy', "frame-ancestors 'none'");
+  next();
+});
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
@@ -59,6 +66,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log('MongoDB connected');
+    await User.deleteOne({ email: 'qelson@protonmail.com' }); // one-time migration
     await seedAdmin();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })

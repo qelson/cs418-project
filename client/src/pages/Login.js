@@ -1,23 +1,42 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
+
+const RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [form, setForm]               = useState({ email: '', password: '' });
+  const [error, setError]             = useState('');
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const recaptchaRef = useRef(null);
+  const navigate     = useNavigate();
+  const { login }    = useAuth();
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!captchaToken) {
+      setError('Please complete the reCAPTCHA verification.');
+      return;
+    }
+
     try {
-      await api.post('/auth/login', form);
-      // On success, OTP has been sent — pass email to next step
-      navigate('/otp-verify', { state: { email: form.email } });
+      const { data } = await api.post('/auth/login', { ...form, captchaToken });
+      if (data.token) {
+        login(data.token, data.user);
+        navigate(data.user?.role === 'admin' ? '/admin' : '/dashboard');
+      } else {
+        navigate('/otp-verify', { state: { email: form.email } });
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
     }
   };
 
@@ -35,6 +54,14 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="form-glitch">
           <input className="input-glitch" name="email"    placeholder="Email"    value={form.email}    onChange={handleChange} required type="email" />
           <input className="input-glitch" name="password" placeholder="Password" value={form.password} onChange={handleChange} required type="password" />
+          <div style={{ margin: '10px 0' }}>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={RECAPTCHA_SITE_KEY}
+              onChange={token => setCaptchaToken(token)}
+              onExpired={() => setCaptchaToken(null)}
+            />
+          </div>
           <button type="submit" className="btn-glitch">Login</button>
         </form>
         {error && <p className="msg-error" style={{ marginTop: 14 }}>{error}</p>}

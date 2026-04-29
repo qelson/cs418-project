@@ -48,6 +48,7 @@ export default function AdminDashboard() {
         <Link to="/edit-profile">▶ Edit Profile</Link>
         <Link to="/change-password">▶ Change Password</Link>
         <Link to="/advising">▶ Course Advising</Link>
+        <Link to="/admin/advising">▶ View Student Advising</Link>
       </div>
       <button onClick={handleLogout} className="btn-glitch">Logout</button>
     </div>

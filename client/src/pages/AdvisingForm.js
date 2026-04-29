@@ -24,6 +24,7 @@ export default function AdvisingForm() {
   const [currentTerm, setCurrentTerm] = useState('');
   const [rows, setRows]               = useState([emptyRow()]);
   const [status, setStatus]           = useState('Pending');
+  const [adminMessage, setAdminMessage] = useState('');
   const [error, setError]             = useState('');
   const [loading, setLoading]         = useState(!isNew);
 
@@ -43,6 +44,7 @@ export default function AdvisingForm() {
         setCurrentTerm(data.currentTerm || '');
         setRows(data.courses?.length ? data.courses : [emptyRow()]);
         setStatus(data.status || 'Pending');
+        setAdminMessage(data.adminMessage || '');
       })
       .catch(() => setError('Failed to load record.'))
       .finally(() => setLoading(false));
@@ -108,6 +110,11 @@ export default function AdvisingForm() {
       {isLocked && (
         <div className="status-strip status-warn" style={{ marginBottom: 16 }}>
           This record has been <strong>{status.toUpperCase()}</strong> and cannot be edited.
+          {adminMessage && (
+            <div style={{ marginTop: 8, borderTop: '1px solid #cca', paddingTop: 8 }}>
+              <strong>Admin Feedback:</strong> {adminMessage}
+            </div>
+          )}
         </div>
       )}
 

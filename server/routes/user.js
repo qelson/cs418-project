@@ -1,6 +1,7 @@
 const express  = require('express');
 const bcrypt   = require('bcrypt');
-const { protect } = require('../middleware/authMiddleware');
+const { protect }          = require('../middleware/authMiddleware');
+const { validatePassword } = require('../utils/passwordValidation');
 const User     = require('../models/User');
 
 const router = express.Router();
@@ -70,6 +71,9 @@ router.post('/change-password', protect, async (req, res) => {
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ message: 'Current and new password are required' });
   }
+
+  const pwError = validatePassword(newPassword);
+  if (pwError) return res.status(400).json({ message: pwError });
 
   try {
     const user = await User.findById(req.user._id);
